@@ -51,6 +51,11 @@ class Calendar
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="WorkingHours", mappedBy="calendar")
+     */
+    private $workingHours;
+
 
     /**
      * Get id
@@ -156,5 +161,46 @@ class Calendar
     public function getUser()
     {
         return $this->user;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->workingHours = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add workingHour
+     *
+     * @param \AppBundle\Entity\WorkingHours $workingHour
+     *
+     * @return Calendar
+     */
+    public function addWorkingHour(\AppBundle\Entity\WorkingHours $workingHour)
+    {
+        $this->workingHours[] = $workingHour;
+
+        return $this;
+    }
+
+    /**
+     * Remove workingHour
+     *
+     * @param \AppBundle\Entity\WorkingHours $workingHour
+     */
+    public function removeWorkingHour(\AppBundle\Entity\WorkingHours $workingHour)
+    {
+        $this->workingHours->removeElement($workingHour);
+    }
+
+    /**
+     * Get workingHours
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWorkingHours()
+    {
+        return $this->workingHours;
     }
 }

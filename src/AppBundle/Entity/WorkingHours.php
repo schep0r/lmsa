@@ -42,6 +42,12 @@ class WorkingHours
      */
     private $endTime;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Calendar")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $calendar;
+
 
     /**
      * Get id
@@ -124,5 +130,28 @@ class WorkingHours
     {
         return $this->endTime;
     }
-}
 
+    /**
+     * Set calendar
+     *
+     * @param \AppBundle\Entity\Calendar $calendar
+     *
+     * @return WorkingHours
+     */
+    public function setCalendar(\AppBundle\Entity\Calendar $calendar)
+    {
+        $this->calendar = $calendar;
+
+        return $this;
+    }
+
+    /**
+     * Get calendar
+     *
+     * @return \AppBundle\Entity\Calendar
+     */
+    public function getCalendar()
+    {
+        return $this->calendar;
+    }
+}

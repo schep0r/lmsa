@@ -7,7 +7,6 @@ use AppBundle\Form\CalendarType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -24,7 +23,6 @@ class CalendarController extends Controller
         $calendar->setUser($this->getUser());
 
         $form = $this->createForm(CalendarType::class, $calendar);
-
         $form->add('update', SubmitType::class, array(
             'attr' => array('class' => 'update'),
         ));
@@ -38,8 +36,6 @@ class CalendarController extends Controller
                 $em->flush();
             }
         }
-
-        dump($calendar);
 
         return $this->render('AppBundle:Calendar:create.html.twig', array(
             'form' => $form->createView(),

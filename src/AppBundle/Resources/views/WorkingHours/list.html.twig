@@ -1,0 +1,31 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:WorkingHours:list{% endblock %}
+
+{% block body %}
+    <h1>Welcome to the WorkingHours:list page</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Week Days</th>
+                <th>Start time</th>
+                <th>End Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for hour in workingHours %}
+            <tr>
+                <td>{{ hour.weekDays|join("|") }}</td>
+                <td>{{ hour.startTime|date("H:i") }}</td>
+                <td>{{ hour.endTime|date("H:i") }}</td>
+                <td>
+                    <a href="{{ path('working_hours_edit', {'id': hour.id}) }}">edit</a>
+                    <a href="{{ path('working_hours_delete', {'id': hour.id}) }}">delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
