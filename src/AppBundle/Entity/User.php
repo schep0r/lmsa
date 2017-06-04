@@ -10,12 +10,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email already taken")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -63,6 +63,12 @@ class User
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Calendar", mappedBy="user")
+     */
+    private $calendar;
+
 
     public function __construct()
     {
@@ -240,5 +246,29 @@ class User
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set calendar
+     *
+     * @param \AppBundle\Entity\Calendar $calendar
+     *
+     * @return User
+     */
+    public function setCalendar(Calendar $calendar = null)
+    {
+        $this->calendar = $calendar;
+
+        return $this;
+    }
+
+    /**
+     * Get calendar
+     *
+     * @return \AppBundle\Entity\Calendar
+     */
+    public function getCalendar()
+    {
+        return $this->calendar;
     }
 }

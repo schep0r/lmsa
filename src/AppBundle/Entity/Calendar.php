@@ -3,11 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Calendar
  *
- * @ORM\Table(name="calendar")
+ * @ORM\Table(name="calendars")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CalendarRepository")
  */
 class Calendar
@@ -25,6 +26,7 @@ class Calendar
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=128)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -39,8 +41,15 @@ class Calendar
      * @var int
      *
      * @ORM\Column(name="step_minutes", type="integer")
+     * @Assert\NotBlank()
      */
-    private $stepMinutes;
+    private $stepMinutes = 30;
+
+    /**
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
 
     /**
@@ -124,5 +133,28 @@ class Calendar
     {
         return $this->stepMinutes;
     }
-}
 
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Calendar
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}
