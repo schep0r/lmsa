@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\Web;
 
-use AppBundle\AppBundle;
 use AppBundle\Entity\WorkingHours;
 use AppBundle\Form\WorkingHoursType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

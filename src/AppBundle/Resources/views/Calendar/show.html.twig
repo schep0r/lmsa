@@ -3,5 +3,86 @@
 {% block title %}AppBundle:Calendar:show{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Calendar:show page</h1>
+    <h1>Welcome to the Calendar:show page</h1>
+
+    <div id='calendar'></div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media='print'>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script async="" src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            // page is now ready, initialize the calendar...
+
+            var calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                select: function(start, end, allDay) {
+                    var title = prompt('Event Title:');
+                    if (title) {
+                        calendar.fullCalendar('renderEvent',
+                            {
+                                title: title,
+                                start: start,
+                                end: end,
+                                allDay: false
+                            },
+                            true // make the event "stick"
+                        );
+                    }
+                    calendar.fullCalendar('unselect');
+                },
+                scrollTime: '00:00:00',
+                editable: true,
+                selectable: true,
+                droppable: true, // this allows things to be dropped onto the calendar
+                eventLimit: true, // allow "more" link when too many events
+                events: [
+                    {
+                        start: '00:00:00',
+                        end: '08:00:00',
+                        color: 'gray',
+                        rendering: 'background',
+                        dow: [1,2,3,4,5]
+                    },
+
+                    {
+                        start: '16:00:00',
+                        end: '24:00:00',
+                        color: 'gray',
+                        rendering: 'background',
+                        dow: [1,2,3,4,5]
+                    },
+
+                    {
+                        start: '00:00:00',
+                        end: '8:00:00',
+                        color: 'gray',
+                        rendering: 'background',
+                        dow: [6]
+                    },
+
+                    {
+                        start: '12:00:00',
+                        end: '24:00:00',
+                        color: 'gray',
+                        rendering: 'background',
+                        dow: [6]
+                    }
+                ]
+            });
+        });
+    </script>
 {% endblock %}
