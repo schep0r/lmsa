@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
-     * @Route("/booking")
-     */
+ * @Route("/booking")
+ */
 class BookingController extends Controller
 {
     /**

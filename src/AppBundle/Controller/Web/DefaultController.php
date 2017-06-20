@@ -11,11 +11,28 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+        $calendars = $this->getDoctrine()->getRepository('AppBundle:Calendar')->findAll();
+
+        return $this->render('AppBundle:Default:index.html.twig', [
+            'calendars' => $calendars,
+        ]);
+    }
+
+    /**
+     * @Route("/calendar/{id}", name="show_calendar")
+     */
+    public function showCalendarAction($id)
+    {
+        $calendar = $this->getDoctrine()->getRepository('AppBundle:Calendar')->find($id);
+
+        if ($calendar === null) {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render('AppBundle:Default:show-calendar.html.twig', [
+            'calendar' => $calendar,
         ]);
     }
 }

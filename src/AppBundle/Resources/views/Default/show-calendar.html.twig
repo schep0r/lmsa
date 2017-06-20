@@ -1,0 +1,87 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Calendar:show{% endblock %}
+
+{% block body %}
+    <h1>Welcome to the Calendar:show page</h1>
+
+    <div id='calendar'></div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media='print'>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script async="" src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            // page is now ready, initialize the calendar...
+
+            var calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                select: function(start, end, allDay) {
+                    var title = prompt('Enter Your Name:');
+                    if (title) {
+                        calendar.fullCalendar('renderEvent',
+                            {
+                                title: title,
+                                start: start,
+                                end: end,
+                                allDay: false
+                            },
+                            true // make the event "stick"
+                        );
+                    }
+                    calendar.fullCalendar('unselect');
+                },
+                scrollTime: '00:00:00',
+                editable: true,
+                selectable: true,
+                droppable: true, // this allows things to be dropped onto the calendar
+                eventLimit: true, // allow "more" link when too many events
+                events: [
+
+                    {% for hours in calendar.workingHours %}
+                        {% if loop.first %}
+                            {% set startTime = "00:00:00" %}
+                        {% endif %}
+
+                        {% set endTime = hours.startTime|date('H:i:s') %}
+
+                        {
+                            start: '{{ startTime }}',
+                            end: '{{ endTime }}',
+                            color: 'gray',
+                            rendering: 'background',
+                            dow: [{{ hours.weekDays|join(',') }}]
+                        },
+
+                        {% set startTime = hours.endTime|date('H:i:s') %}
+
+                        {% if loop.last %}
+                            {% set endTime = "24:00:00" %}
+
+                            {
+                                start: '{{ startTime }}',
+                                end: '{{ endTime }}',
+                                color: 'gray',
+                                rendering: 'background',
+                                dow: [{{ hours.weekDays|join(',') }}]
+                            }
+                        {% endif %}
+                    {% endfor %}
+                ]
+            });
+        });
+    </script>
+{% endblock %}

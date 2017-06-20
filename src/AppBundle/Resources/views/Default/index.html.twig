@@ -1,0 +1,27 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Calendars{% endblock %}
+
+{% block body %}
+    <h1>Calendars</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for calendar in calendars %}
+                <tr>
+                    <td>
+                        <a href="{{ path('show_calendar', {'id': calendar.id}) }}">{{ calendar.name }}</a></td>
+                    <td>{{ calendar.description }}</td>
+                    <td>{{ calendar.user.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

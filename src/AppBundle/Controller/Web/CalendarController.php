@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/calendar")
+ * @Route("/system/calendar")
  */
 class CalendarController extends Controller
 {
@@ -19,6 +19,10 @@ class CalendarController extends Controller
      */
     public function createAction(Request $request)
     {
+        if ($this->getUser()->getCalendar() !== null) {
+            return $this->redirectToRoute('calendar_edit');
+        }
+
         $calendar = new Calendar();
         $calendar->setUser($this->getUser());
 

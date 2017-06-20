@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/working-hours")
+ * @Route("/system/working-hours")
  */
 class WorkingHoursController extends Controller
 {
