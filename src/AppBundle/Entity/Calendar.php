@@ -56,6 +56,11 @@ class Calendar
      */
     private $workingHours;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="calendar")
+     */
+    private $bookings;
+
 
     /**
      * Get id
@@ -202,5 +207,39 @@ class Calendar
     public function getWorkingHours()
     {
         return $this->workingHours;
+    }
+
+    /**
+     * Add booking
+     *
+     * @param \AppBundle\Entity\Booking $booking
+     *
+     * @return Calendar
+     */
+    public function addBooking(\AppBundle\Entity\Booking $booking)
+    {
+        $this->bookings[] = $booking;
+
+        return $this;
+    }
+
+    /**
+     * Remove booking
+     *
+     * @param \AppBundle\Entity\Booking $booking
+     */
+    public function removeBooking(\AppBundle\Entity\Booking $booking)
+    {
+        $this->bookings->removeElement($booking);
+    }
+
+    /**
+     * Get bookings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBookings()
+    {
+        return $this->bookings;
     }
 }

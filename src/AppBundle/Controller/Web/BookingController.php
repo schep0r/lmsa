@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Web;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/booking")
@@ -13,11 +14,9 @@ class BookingController extends Controller
     /**
      * @Route("/create", name="booking_create")
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
-        return $this->render('AppBundle:Booking:create.html.twig', array(
-            // ...
-        ));
+        
     }
 
     /**

@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Booking
 {
+    const STATUS_PENDING = 1;
+
+    const STATUS_IN_ACTION = 2;
+
+    const STATUS_CLOSED = 9;
+
     /**
      * @var int
      *
@@ -40,7 +46,15 @@ class Booking
      *
      * @ORM\Column(name="status", type="string", length=64)
      */
-    private $status;
+    private $status = 1;
+
+    /**
+     * @var Calendar
+     *
+     * @ORM\ManyToOne(targetEntity="Calendar")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $calendar;
 
 
     /**
@@ -115,6 +129,21 @@ class Booking
         return $this;
     }
 
+    public function getStatusText($status = null)
+    {
+        if ($status === null) {
+            $status = $this->getStatus();
+        }
+
+        $statuses = [
+            1 => 'Pending',
+            2 => 'In Action',
+            9 => 'Closed',
+        ];
+
+        return $statuses[$status];
+    }
+
     /**
      * Get status
      *
@@ -124,5 +153,28 @@ class Booking
     {
         return $this->status;
     }
-}
 
+    /**
+     * Set calendar
+     *
+     * @param \AppBundle\Entity\Calendar $calendar
+     *
+     * @return Booking
+     */
+    public function setCalendar(\AppBundle\Entity\Calendar $calendar)
+    {
+        $this->calendar = $calendar;
+
+        return $this;
+    }
+
+    /**
+     * Get calendar
+     *
+     * @return \AppBundle\Entity\Calendar
+     */
+    public function getCalendar()
+    {
+        return $this->calendar;
+    }
+}
