@@ -49,6 +49,13 @@ class Booking
     private $status = 1;
 
     /**
+     * @var text
+     *
+     * @ORM\Column(name="note", type="text", nullable=true)
+     */
+    private $note;
+
+    /**
      * @var Calendar
      *
      * @ORM\ManyToOne(targetEntity="Calendar")
@@ -176,5 +183,29 @@ class Booking
     public function getCalendar()
     {
         return $this->calendar;
+    }
+
+    /**
+     * Set note
+     *
+     * @param string $note
+     *
+     * @return Booking
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
     }
 }

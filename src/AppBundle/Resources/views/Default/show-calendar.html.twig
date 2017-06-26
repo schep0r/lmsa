@@ -32,17 +32,31 @@
                 select: function(start, end, allDay) {
                     var title = prompt('Enter Your Name:');
                     if (title) {
-                        calendar.fullCalendar('renderEvent',
-                            {
-                                title: title,
-                                start: start,
-                                end: end,
-                                allDay: false
-                            },
-                            true // make the event "stick"
-                        );
+                        var calendarId = {{ calendar.id }};
+
+                        $.ajax({
+                            method: "POST",
+                            url: "{{ path('booking_create') }}",
+                            data: { 
+                                note: title,
+                                startTime: start.format('YYYY-MM-DD hh:mm:ss'),
+                                calendar: calendarId
+                                
+                            }
+                        })
+                        .done(function( data ) {
+                            calendar.fullCalendar('renderEvent',
+                                {
+                                    title: data.title,
+                                    start: data.startTime,
+                                    end: data.endTime,
+                                    allDay: false
+                                },
+                                true // make the event "stick"
+                            );
+                            calendar.fullCalendar('unselect');
+                        });
                     }
-                    calendar.fullCalendar('unselect');
                 },
                 scrollTime: '00:00:00',
                 editable: true,
