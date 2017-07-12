@@ -18,13 +18,20 @@ class CalendarType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-
+                'attr' => [
+                    'class'     =>  'form-control',
+                ]
             ])
             ->add('description', TextareaType::class, [
-
+                'attr' => [
+                    'class'     =>  'form-control',
+                    'style'     =>  'resize:vertical',
+                ]
             ])
             ->add('stepMinutes', NumberType::class, [
-
+                'attr' => [
+                    'class'     =>  'form-control',
+                ]
             ])
         ;
     }
@@ -35,7 +42,8 @@ class CalendarType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Calendar'
+            'data_class' => 'AppBundle\Entity\Calendar',
+            'csrf_token' => false
         ));
     }
 

@@ -3,6 +3,18 @@
 {% block title %}AppBundle:Calendar:edit{% endblock %}
 
 {% block body %}
-    <h1>Welcome to the Calendar:edit page</h1>
-    {{ form(form) }}
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h1 class="box-title">Welcome to the Calendar:edit page</h1>
+                    </div>
+                    <div class="box-body">
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

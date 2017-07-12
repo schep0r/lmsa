@@ -4,28 +4,52 @@
 
 {% block body %}
     <h1>Welcome to the WorkingHours:list page</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Calendars</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-6">
 
-    <table>
-        <thead>
-            <tr>
-                <th>Week Days</th>
-                <th>Start time</th>
-                <th>End Time</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for hour in workingHours %}
-            <tr>
-                <td>{{ hour.weekDays|join("|") }}</td>
-                <td>{{ hour.startTime|date("H:i") }}</td>
-                <td>{{ hour.endTime|date("H:i") }}</td>
-                <td>
-                    <a href="{{ path('working_hours_edit', {'id': hour.id}) }}">edit</a>
-                    <a href="{{ path('working_hours_delete', {'id': hour.id}) }}">delete</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                                </div>
+                                <div class="col-sm-6">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th>Week Days</th>
+                                                <th>Start time</th>
+                                                <th>End Time</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for hour in workingHours %}
+                                            <tr role="row" class="odd">
+                                                <td>{{ hour.weekDays|join("|") }}</td>
+                                                <td>{{ hour.startTime|date("H:i") }}</td>
+                                                <td>{{ hour.endTime|date("H:i") }}</td>
+                                                <td>
+                                                    <a href="{{ path('working_hours_edit', {'id': hour.id}) }}">edit</a>
+                                                    <a href="{{ path('working_hours_delete', {'id': hour.id}) }}">delete</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}

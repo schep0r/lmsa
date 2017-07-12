@@ -19,11 +19,12 @@ class BookingController extends Controller
      */
     public function createAction(Request $request)
     {
+//        var_dump($request->request->all());die;
         $booking = new Booking();
-
         $form = $this->createForm(BookingType::class, $booking);
 
         if ($request->isMethod("POST")) {
+
             $form->submit($request->request->all());
 
             $endDate = clone $booking->getStartTime();

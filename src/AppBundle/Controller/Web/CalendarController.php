@@ -72,7 +72,7 @@ class CalendarController extends Controller
         $form = $this->createForm(CalendarType::class, $calendar);
 
         $form->add('update', SubmitType::class, array(
-            'attr' => array('class' => 'update'),
+            'attr' => array('class' => 'btn btn-primary'),
         ));
 
         if ($request->getMethod() != 'GET') {
