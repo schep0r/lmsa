@@ -8,6 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Booking;
+use AppBundle\Form\BookingType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 /**
  * @Route("/system/calendar")
@@ -19,6 +23,7 @@ class CalendarController extends Controller
      */
     public function createAction(Request $request)
     {
+        $user = $this->getUser();
         if ($this->getUser()->getCalendar() !== null) {
             return $this->redirectToRoute('calendar_edit');
         }
@@ -43,6 +48,7 @@ class CalendarController extends Controller
 
         return $this->render('AppBundle:Calendar:create.html.twig', array(
             'form' => $form->createView(),
+            'user' => $user
         ));
     }
 
@@ -55,8 +61,12 @@ class CalendarController extends Controller
 
         $calendar = $user->getCalendar();
 
+        $workingHours = $calendar->getWorkingHours();
+
         return $this->render('AppBundle:Calendar:show.html.twig', array(
             'calendar' => $calendar,
+            'workingHours' => $workingHours,
+            'user' => $user
         ));
     }
 
@@ -72,10 +82,11 @@ class CalendarController extends Controller
         $form = $this->createForm(CalendarType::class, $calendar);
 
         $form->add('update', SubmitType::class, array(
-            'attr' => array('class' => 'btn btn-primary'),
+            'attr' => array('class' => 'btn btn-primary', 'style' => 'margin-top: 20px'),
         ));
 
         if ($request->getMethod() != 'GET') {
+
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -84,11 +95,21 @@ class CalendarController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($calendar);
                 $em->flush();
+
+                $this->addFlash(
+                    'danger',
+                    'Your changes were saved!'
+                );
+                return $this->render('AppBundle:Calendar:edit.html.twig', array(
+                    'form' => $form->createView(),
+                    'user' => $user
+                ));
             }
         }
 
         return $this->render('AppBundle:Calendar:edit.html.twig', array(
             'form' => $form->createView(),
+            'user' => $user
         ));
     }
 }

@@ -17,7 +17,7 @@ class BookingType extends AbstractType
     {
         $builder
             ->add('startTime', DateTimeType::class, [
-                'format' => 'yyyy-MM-dd HH:mm',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
                 'widget' => 'single_text',
             ])
             ->add('note')
@@ -42,7 +42,7 @@ class BookingType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_booking';
+        return null;
     }
 
 

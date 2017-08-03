@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * WorkingHours
@@ -39,6 +40,10 @@ class WorkingHours
      * @var \DateTime
      *
      * @ORM\Column(name="end_time", type="time")
+     * @Assert\Expression(
+     *     "this.getStartTime() < this.getEndTime()",
+     *      message="The end date must be after the start date"
+     * )
      */
     private $endTime;
 

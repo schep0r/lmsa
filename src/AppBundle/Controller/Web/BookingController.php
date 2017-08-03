@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Booking;
 use AppBundle\Form\BookingType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/booking")
@@ -19,7 +20,8 @@ class BookingController extends Controller
      */
     public function createAction(Request $request)
     {
-//        var_dump($request->request->all());die;
+        $data = $request->request->all();
+
         $booking = new Booking();
         $form = $this->createForm(BookingType::class, $booking);
 
@@ -32,9 +34,18 @@ class BookingController extends Controller
             $minutes = $booking->getCalendar()->getStepMinutes()%60;
 
             $endDate->add(new \DateInterval("PT".$hours."H".$minutes."M"));
-            $booking->setEndTime($endDate);
-
+            $endDateTime = $endDate->format('Y-m-d H:i:s');
             $em = $this->getDoctrine()->getManager();
+
+            $booking->setEndTime($endDate);
+            $calendar = $em->getRepository('AppBundle:Calendar')->find($data['calendar']);
+            $isAtWorkingHoursRepository = $em->getRepository('AppBundle:WorkingHours');
+            $AtWorkingHour = $isAtWorkingHoursRepository->isAtWorkingHours($calendar, $data, $endDateTime);
+
+            if ($AtWorkingHour === false) {
+                return new JsonResponse(array('message' => 'This time is busy'), 400);
+            }
+
             $em->persist($booking);
             $em->flush();
 
@@ -66,6 +77,32 @@ class BookingController extends Controller
         return $this->render('AppBundle:Booking:edit.html.twig', array(
             // ...
         ));
+    }
+    /**
+     * @Route("/bookingLoad", name="booking_load")
+     */
+    public function bookingLoad(Request $request)
+    {
+        $data = $request->query->all();
+        $em = $this->getDoctrine()->getManager();
+        $bookingRepository = $em->getRepository('AppBundle:Booking');
+        $calendar = $em->getRepository('AppBundle:Calendar')->find($data['id']);
+
+        $bookings = $bookingRepository->findByCalendarIdBetweenDates($calendar, $data);
+
+        $items = [];
+        foreach ($bookings as $value)
+        {
+            $array = [];
+            $array['title'] = $value['note'];
+            $array['start'] = $value['startTime']->format('Y-m-d H:i');
+            $array['end'] = $value['endTime']->format('Y-m-d H:i');
+            $items[] = $array;
+        }
+
+        $response = new Response(json_encode($items));
+
+        return $response;
     }
 
 }

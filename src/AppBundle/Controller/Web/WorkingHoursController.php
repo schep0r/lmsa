@@ -26,6 +26,7 @@ class WorkingHoursController extends Controller
 
         return $this->render('AppBundle:WorkingHours:list.html.twig', array(
             'workingHours' => $workingHours,
+            'user' => $user
         ));
     }
 
@@ -52,11 +53,19 @@ class WorkingHoursController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($workingHours);
                 $em->flush();
+
+
+                $this->addFlash(
+                    'info',
+                    'Working hours Created!'
+                );
+                return $this->redirectToRoute('working_hours_list');
             }
         }
 
         return $this->render('AppBundle:WorkingHours:create.html.twig', array(
             'form' => $form->createView(),
+            'user' => $user
         ));
     }
 
@@ -66,6 +75,7 @@ class WorkingHoursController extends Controller
     public function editAction(Request $request, $id)
     {
         /** @var \AppBundle\Entity\User $user */
+
         $user = $this->getUser();
         $calendar = $user->getCalendar();
         $workingHours = $this->getDoctrine()->getRepository('AppBundle:WorkingHours')->find($id);
@@ -82,6 +92,8 @@ class WorkingHoursController extends Controller
         $workingHours->setCalendar($calendar);
 
         if ($request->isMethod('POST')) {
+
+
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -93,6 +105,7 @@ class WorkingHoursController extends Controller
 
         return $this->render('AppBundle:WorkingHours:edit.html.twig', array(
             'form' => $form->createView(),
+            'user' => $user
         ));
     }
 
@@ -113,6 +126,11 @@ class WorkingHoursController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($workingHours);
         $em->flush();
+
+        $this->addFlash(
+            'danger',
+            'Working hours deleted!'
+        );
 
         return $this->redirectToRoute('working_hours_list');
     }

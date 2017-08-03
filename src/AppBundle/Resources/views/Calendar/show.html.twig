@@ -4,21 +4,28 @@
 
 {% block body %}
     <h1>Welcome to the Calendar:show page</h1>
+    {% for hour in workingHours %}
+        <tr role="row" class="odd">
+            <td>{{ hour.weekDays|join("|") }}</td>
+            <td>{{ hour.startTime|date("H:i") }}</td>
+            <td>{{ hour.endTime|date("H:i") }}</td>
 
+        </tr>
+    {% endfor %}
     <div id='calendar'></div>
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media='print'>
+    <link rel="stylesheet" href="{{ asset('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css') }}" media='print'>
 {% endblock %}
 
 {% block javascripts %}
-
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script async="" src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    {{ parent() }}
+    <script src="{{ asset('https://code.jquery.com/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js') }}"></script>
+    <script src="{{ asset('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -31,20 +38,35 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
+                defaultView: 'agendaWeek',
                 select: function(start, end, allDay) {
-                    var title = prompt('Event Title:');
+                    var title = prompt('Enter Your Name:');
                     if (title) {
-                        calendar.fullCalendar('renderEvent',
-                            {
-                                title: title,
-                                start: start,
-                                end: end,
-                                allDay: false
-                            },
-                            true // make the event "stick"
-                        );
+                        var calendarId = {{ calendar.id }};
+
+                        $.ajax({
+                            method: "POST",
+                            url: "{{ path('timeRange') }}",
+                            data: {
+                                note: title,
+                                startTime: start.format('YYYY-MM-DD hh:mm:ss'),
+                                endTime: end.format('YYYY-MM-DD hh:mm:ss'),
+                                calendar: calendarId
+                            }
+                        })
+                        .done(function( data ) {
+                            calendar.fullCalendar('renderEvent',
+                                {
+                                    title: data.title,
+                                    start: data.startTime,
+                                    end: data.endTime,
+                                    allDay: false
+                                },
+                                true // make the event "stick"
+                            );
+                            calendar.fullCalendar('unselect');
+                        });
                     }
-                    calendar.fullCalendar('unselect');
                 },
                 scrollTime: '00:00:00',
                 editable: true,
@@ -52,37 +74,37 @@
                 droppable: true, // this allows things to be dropped onto the calendar
                 eventLimit: true, // allow "more" link when too many events
                 events: [
-                    {
-                        start: '00:00:00',
-                        end: '08:00:00',
-                        color: 'gray',
-                        rendering: 'background',
-                        dow: [1,2,3,4,5]
-                    },
 
-                    {
-                        start: '16:00:00',
-                        end: '24:00:00',
-                        color: 'gray',
-                        rendering: 'background',
-                        dow: [1,2,3,4,5]
-                    },
+                    {% for hours in calendar.workingHours %}
+                        {% if loop.first %}
+                            {% set startTime = "06:00:00" %}
+                        {% endif %}
 
-                    {
-                        start: '00:00:00',
-                        end: '8:00:00',
-                        color: 'gray',
-                        rendering: 'background',
-                        dow: [6]
-                    },
+                        {% set endTime = hours.startTime|date('H:i:s') %}
 
-                    {
-                        start: '12:00:00',
-                        end: '24:00:00',
-                        color: 'gray',
-                        rendering: 'background',
-                        dow: [6]
-                    }
+                        {
+                            start: '{{ startTime }}',
+                            end: '{{ endTime }}',
+                            color: 'gray',
+                            rendering: 'background',
+                            dow: [{{ hours.weekDays|join(',') }}]
+                        },
+
+                        {% set startTime = hours.endTime|date('H:i:s') %}
+
+                        {% if loop.last %}
+
+                            {% set endTime = "20:00:00" %}
+
+                            {
+                                start: '{{ startTime }}',
+                                end: '{{ endTime }}',
+                                color: 'gray',
+                                rendering: 'background',
+                            dow: [{{ hours.weekDays|join(',') }}]
+                            },
+                        {% endif %}
+                    {% endfor %}
                 ]
             });
         });

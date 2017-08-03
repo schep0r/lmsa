@@ -2,7 +2,32 @@
 
 {% block title %}AppBundle:WorkingHours:edit{% endblock %}
 
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datetimepicker-4.17.47/build/css/bootstrap-datetimepicker.css') }}">
+
+{% endblock %}
+
 {% block body %}
     <h1>Welcome to the WorkingHours:edit page</h1>
-    {{ form(form) }}
+        {{ form_widget(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js') }}"></script>
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('bower_components/bootstrap-datetimepicker-4.17.47/src/js/bootstrap-datetimepicker.js') }}"></script>
+    <script type="text/javascript">
+
+            $('.date').datetimepicker({
+                format: 'HH:mm'
+            });
+
+    </script>
 {% endblock %}

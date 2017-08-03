@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * User
@@ -46,7 +47,7 @@ class User implements UserInterface
     private $name;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"registration"})
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
@@ -68,6 +69,17 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity="Calendar", mappedBy="user")
      */
     private $calendar;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Image(
+     *      mimeTypes={"image/gif", "image/jpeg", "image/png"},
+     *      mimeTypesMessage = "Not valid.",
+     *      maxSize = "5M",
+     *      maxSizeMessage = "Too big.",
+     * )
+     */
+    private $avatar;
 
 
     public function __construct()
@@ -121,6 +133,7 @@ class User implements UserInterface
             $this->id,
             $this->username,
             $this->password,
+//            $this->avatar,
             // see section on salt below
             // $this->salt,
         ));
@@ -133,6 +146,7 @@ class User implements UserInterface
             $this->id,
             $this->username,
             $this->password,
+//            $this->avatar,
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized);
@@ -270,5 +284,17 @@ class User implements UserInterface
     public function getCalendar()
     {
         return $this->calendar;
+    }
+
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 }

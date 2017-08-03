@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Calendar;
+
 /**
  * BookingRepository
  *
@@ -10,4 +12,19 @@ namespace AppBundle\Repository;
  */
 class BookingRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByCalendarIdBetweenDates(Calendar $calendar, array $dates)
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb
+            ->where('b.calendar = :calendar')
+            ->andWhere('b.startTime >= :startTime')
+            ->andWhere('b.endTime <= :endTime')
+            ->setParameter('startTime', $dates['start'])
+            ->setParameter('endTime', $dates['end'])
+            ->setParameter('calendar', $calendar)
+        ;
+
+        $queryResults = $qb->getQuery()->getArrayResult();
+        return $queryResults;
+    }
 }

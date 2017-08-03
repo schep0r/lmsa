@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,6 +17,10 @@ class WorkingHoursType extends AbstractType
     {
         $builder
             ->add('weekDays', ChoiceType::class, [
+                'attr' => [
+                    'class'=> 'selectpicker',
+                    'data-style'=> 'btn-primary',
+                ],
                 'multiple' => true,
                 'choices' => [
                     'Monday' => 1,
@@ -27,8 +32,18 @@ class WorkingHoursType extends AbstractType
                     'Sunday' => 7,
                 ]
             ])
-            ->add('startTime')
-            ->add('endTime')
+            ->add('startTime', TimeType::class, [
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'input-group date',
+                ]
+            ])
+            ->add('endTime', TimeType::class, [
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'input-group date',
+                ]
+            ])
         ;
     }
     

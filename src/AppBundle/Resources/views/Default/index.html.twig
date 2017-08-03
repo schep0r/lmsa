@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8 col-md-offset-2">
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Calendars</h3>
@@ -13,22 +13,10 @@
                 <div class="box-body">
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row">
-                            <div class="col-sm-6">
-
-                            </div>
-                            <div class="col-sm-6">
-
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-sm-12">
-                                <ul>
-
-
-                                </ul>
                                 <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                                     <thead>
-                                        <tr role="row">
+                                        <tr class="bg-success" role="row">
                                             <th>Name</th>
                                             <th>Description</th>
                                             <th>Owner(s)</th>
@@ -40,8 +28,12 @@
                                             <td>
                                                 <a href="{{ path('show_calendar', {'id': calendar.id}) }}">{{ calendar.name }}</a>
                                             </td>
-                                            <td>{{ calendar.description }}</td>
-                                            <td>{{ calendar.user.name }}</td>
+                                            <td>
+                                                {{ calendar.description }}
+                                            </td>
+                                            <td>
+                                                {{ calendar.user.name }}
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -54,4 +46,10 @@
         </div>
     </div>
 
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/links.css') }}">
 {% endblock %}

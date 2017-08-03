@@ -12,177 +12,156 @@
             <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css') }}">
             <link rel="stylesheet" href="{{ asset('dist/css/AdminLTE.min.css') }}">
             <link rel="stylesheet" href="{{ asset('dist/css/skins/_all-skins.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('dist/css/AdminLTE.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('dist/css/skins/_all-skins.min.css') }}">
             <link rel="stylesheet" href="{{ asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic') }}">
-
+            <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
         {% endblock %}
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
 
     <body class="hold-transition skin-blue layout-top-nav">
-    <div class="wrapper">
+        <div class="wrapper">
 
-        <header class="main-header">
-            <nav class="navbar navbar-static-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <a href="{{ path('homepage') }}" class="navbar-brand"><b> Home</b> </a>
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                    </div>
+            <header class="main-header">
+                <nav class="navbar navbar-static-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <a href="{{ path('homepage') }}" class="navbar-brand"><b> Home</b> </a>
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                        </div>
 
-                    {#Collect the nav links, forms, and other content for toggling#}
-                    {#<div class="collapse navbar-collapse pull-left" id="navbar-collapse">#}
-                        {#<ul class="nav navbar-nav">#}
-                            {#<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>#}
-                            {#<li><a href="#">Link</a></li>#}
-                            {#<li class="dropdown">#}
-                                {#<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>#}
-                                {#<ul class="dropdown-menu" role="menu">#}
-                                    {#<li><a href="#">Action</a></li>#}
-                                    {#<li><a href="#">Another action</a></li>#}
-                                    {#<li><a href="#">Something else here</a></li>#}
-                                    {#<li class="divider"></li>#}
-                                    {#<li><a href="#">Separated link</a></li>#}
-                                    {#<li class="divider"></li>#}
-                                    {#<li><a href="#">One more separated link</a></li>#}
-                                {#</ul>#}
-                            {#</li>#}
-                        {#</ul>#}
-                        {#<form class="navbar-form navbar-left" role="search">#}
-                            {#<div class="form-group">#}
-                                {#<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">#}
-                            {#</div>#}
-                        {#</form>#}
-                    {#</div>#}
+                        {#Collect the nav links, forms, and other content for toggling#}
+                        {#<div class="collapse navbar-collapse pull-left" id="navbar-collapse">#}
+                            {#<ul class="nav navbar-nav">#}
+                                {#<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>#}
+                                {#<li><a href="#">Link</a></li>#}
+                                {#<li class="dropdown">#}
+                                    {#<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>#}
+                                    {#<ul class="dropdown-menu" role="menu">#}
+                                        {#<li><a href="#">Action</a></li>#}
+                                        {#<li><a href="#">Another action</a></li>#}
+                                        {#<li><a href="#">Something else here</a></li>#}
+                                        {#<li class="divider"></li>#}
+                                        {#<li><a href="#">Separated link</a></li>#}
+                                        {#<li class="divider"></li>#}
+                                        {#<li><a href="#">One more separated link</a></li>#}
+                                    {#</ul>#}
+                                {#</li>#}
+                            {#</ul>#}
+                            {#<form class="navbar-form navbar-left" role="search">#}
+                                {#<div class="form-group">#}
+                                    {#<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">#}
+                                {#</div>#}
+                            {#</form>#}
+                        {#</div>#}
 
-                    {% if app.user %}
-                    <!-- Navbar Right Menu -->
-                    <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
-                            <!-- User Account Menu -->
-                            <li class="dropdown user user-menu">
-                                <!-- Menu Toggle Button -->
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <!-- The user image in the navbar-->
-                                    <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                    <span class="hidden-xs">Alexander Pierce</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <!-- The user image in the menu -->
-                                    <li class="user-header">
-                                        <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        {% if app.user %}
+                        <!-- Navbar Right Menu -->
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <!-- User Account Menu -->
+                                <li class="dropdown user user-menu">
+                                    <!-- Menu Toggle Button -->
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <!-- The user image in the navbar-->
+                                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                        <span class="hidden-xs">Settings</span>
+                                    </a>
+                                    {% if app.user %}
+                                        <ul class="dropdown-menu">
+                                            <!-- The user image in the menu -->
+                                            <li class="user-header">
+                                                <a href="/profile"  id="avatar">
+                                                    <img class="profile-user-img img-responsive img-circle"
+                                                         {% if user.avatar %}
+                                                            src="{{ asset('uploads/avatars/' ~ user.avatar) }}"
+                                                         {% else %}
+                                                            src="{{ asset('uploads/avatars/default.jpg') }}"
+                                                         {% endif %}
+                                                         alt="User profile picture"
+                                                    >
+                                                </a>
+                                                <p>
+                                                    {{ user.name }} - {{ user.username }}
+                                                </p>
+                                            </li>
+                                            <!-- Menu Body -->
 
-                                        <p>
-                                            Alexander Pierce - Web Developer
-                                            <small>Member since Nov. 2012</small>
-                                        </p>
-                                    </li>
-                                    <!-- Menu Body -->
-                                    <li class="user-body">
-                                        <div class="row">
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Followers</a>
-                                            </div>
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Sales</a>
-                                            </div>
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Friends</a>
-                                            </div>
-                                        </div>
-                                        <!-- /.row -->
-                                    </li>
-                                    <!-- Menu Footer-->
-                                    <li class="user-footer">
-                                        <div class="pull-left">
-                                            <a href="{{ path('working_hours_list') }}" class="btn btn-default btn-flat"> My Working Hours </a>
-                                        </div>
-                                        <div class="pull-right">
-                                            <a href="{{ path('logout') }}" class="btn btn-default btn-flat"> Logout </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <ul>
-                        {% if app.user.calendar is null %}
-                            <li>
-                                <td>
-                                    <a class="btn btn-primary" href="{{ path('calendar_create') }}"> Create Calendar</a>
-                                </td>
-                            </li>
+                                            <!-- Menu Footer-->
+                                            <li class="user-footer">
+                                                <div class="pull-right" style="width: inherit">
+
+                                                        {% if app.user.calendar is null %}
+                                                            <a style="margin-bottom: 5px" class="btn btn-default btn-flat" href="{{ path('calendar_create') }}"> Create Calendar</a>
+                                                        {% else %}
+                                                            <a href="{{ path('working_hours_list') }}" class="btn btn-default btn-flat"> My Working Hours </a>
+                                                            <a href="{{ path('calendar_edit') }}" class="btn btn-default btn-flat buttonEdit"> Edit Calendar </a>
+                                                        {% endif %}
+
+                                                    <a href="{{ path('logout') }}" class="btn btn-default btn-flat"> Logout </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-custom-menu -->
                         {% else %}
-                            <li>
-                                <a class="btn btn-warning" href="{{ path('calendar_edit') }}"> Edit Calendar </a>
-                            </li>
-                            <li>
-                                <a class="btn btn-info" href="{{ path('calendar_show') }}"> Show Calendar </a>
-                            </li>
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="{{ path('login') }}"> Login </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('user_registration') }}"> Register </a>
+                                </li>
+                            </ul>
+                        </div>
                         {% endif %}
-                    </ul>
-                    <!-- /.navbar-custom-menu -->
-                    {% else %}
-                    <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a href="{{ path('login') }}"> Login </a>
-                            </li>
-                            <li>
-                                <a href="{{ path('user_registration') }}"> Register </a>
-                            </li>
-                        </ul>
                     </div>
-                    {% endif %}
+                    <!-- /.container-fluid -->
+                </nav>
+            </header>
+            <!-- Full Width Column -->
+
+            <div class="content-wrapper">
+                <div class="box-body">
+                    <!-- Content Header (Page header) -->
+
+                    {% block body %}{% endblock %}
+
+                    <!-- Main content -->
+
+                    <!-- /.content -->
                 </div>
-                <!-- /.container-fluid -->
-            </nav>
-        </header>
-        <!-- Full Width Column -->
-
-        <div class="content-wrapper">
-            <div class="box-body">
-                <!-- Content Header (Page header) -->
-
-                {% block body %}{% endblock %}
-
-                <!-- Main content -->
-
-                <!-- /.content -->
+                <!-- /.container -->
             </div>
-            <!-- /.container -->
+            <!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <div class="container">
+                    <div class="pull-right hidden-xs">
+                        <b>Version</b> 2.4.0
+                    </div>
+                    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+                    reserved.
+                </div>
+                <!-- /.container -->
+            </footer>
         </div>
-        <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="container">
-                <div class="pull-right hidden-xs">
-                    <b>Version</b> 2.4.0
-                </div>
-                <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-                reserved.
-            </div>
-            <!-- /.container -->
-        </footer>
-    </div>
-    <!-- ./wrapper -->
-
 
     </body>
         {% block javascripts %}
 
-            <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+            <script src="{{ asset('bower_components/jquery/dist/jquery.js') }}"></script>
             <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
             <script src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
             <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
             <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
         {% endblock %}
-    {#</body>#}
+    </body>
 
 </html>

@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RegistrationType extends AbstractType
 {
@@ -21,9 +22,24 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('email')
-            ->add('name')
+            ->add('username', TextType::class, [
+                'attr' => [
+                    'placeholder' => 'Username',
+                    'class'=> 'form-control',
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'attr' => [
+                    'placeholder' => 'Email',
+                    'class'=> 'form-control',
+                ]
+            ])
+            ->add('name', TextType::class, [
+                'attr' => [
+                    'placeholder' => 'Name',
+                    'class'=> 'form-control',
+                ]
+            ])
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Password'),
@@ -40,6 +56,7 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => User::class,
+            'validation_groups' => array('registration'),
         ));
     }
 }

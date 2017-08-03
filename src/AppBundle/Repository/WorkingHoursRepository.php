@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Calendar;
 /**
  * WorkingHoursRepository
  *
@@ -10,4 +11,23 @@ namespace AppBundle\Repository;
  */
 class WorkingHoursRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function isAtWorkingHours(Calendar $calendar, array $data, $endDateTime)
+    {
+
+        $qb = $this->createQueryBuilder('w');
+        $qb->where('w.calendar = :calendar')
+            ->andWhere('w.startTime <= :startTime')
+            ->andWhere('w.endTime >= :endTime')
+            ->setParameter('calendar', $calendar)
+            ->setParameter('startTime', $data['startTime'])
+            ->setParameter('endTime', $endDateTime)
+        ;
+
+        $queryResults = $qb->getQuery()->getArrayResult();
+        if (count($queryResults) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -10,28 +10,49 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media='print'>
+    <link rel="stylesheet" href="{{ asset('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css') }}" media='print'>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script async="" src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+    <script src="{{ asset('https://code.jquery.com/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js') }}"></script>
+    <script src="{{ asset('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js') }}"></script>
+
 
     <script>
         $(document).ready(function() {
 
             // page is now ready, initialize the calendar...
 
+            var calendarId = {{ calendar.id }};
             var calendar = $('#calendar').fullCalendar({
+                eventSources: [
+
+                    // your event source
+                    {
+                        url: "{{ path('booking_load') }}",
+                        type: 'GET',
+                        data: {
+                            id: calendarId
+                        },
+                        error: function() {
+                            alert('there was an error while fetching events!');
+                        },
+                    }
+
+                    // any other sources...
+
+                ],
                 header: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                select: function(start, end, allDay) {
+                defaultView: 'agendaWeek',
+                select: function(start) {
                     var title = prompt('Enter Your Name:');
                     if (title) {
                         var calendarId = {{ calendar.id }};
@@ -39,11 +60,15 @@
                         $.ajax({
                             method: "POST",
                             url: "{{ path('booking_create') }}",
-                            data: { 
+                            data: {
                                 note: title,
                                 startTime: start.format('YYYY-MM-DD hh:mm:ss'),
                                 calendar: calendarId
-                                
+
+                            },
+                            error: function(data){
+                                var error = JSON.parse(data.responseText);
+                                alert(error.message);
                             }
                         })
                         .done(function( data ) {
@@ -57,7 +82,7 @@
                                 true // make the event "stick"
                             );
                             calendar.fullCalendar('unselect');
-                        });
+                        })
                     }
                 },
                 scrollTime: '00:00:00',
